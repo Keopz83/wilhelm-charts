@@ -8,6 +8,13 @@
 </head>
 <body>
 
+    <div class="controls">
+        <label for="ticker">Ticker:</label>
+        <input type="text" id="ticker" value="GOOGL" placeholder="Enter ticker (e.g., AAPL, MSFT, TSLA)">
+        <button id="loadBtn">Load Chart</button>
+        <span id="status"></span>
+    </div>
+
     <canvas id="chart" width="900" height="400"></canvas>
 
     <script src="chart-api/chart-config.js"></script>
