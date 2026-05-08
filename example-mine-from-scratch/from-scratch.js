@@ -27,3 +27,11 @@ for (let i = 1; i < points.length; i++) {
     ctx.lineTo(points[i].x, points[i].y);
 }
 ctx.stroke();
+
+// Draw dots on vertices
+ctx.fillStyle = '#0f8400';
+points.forEach(point => {
+    ctx.beginPath();
+    ctx.arc(point.x, point.y, 3, 0, Math.PI * 2);
+    ctx.fill();
+});
