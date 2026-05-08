@@ -17,7 +17,12 @@ function drawGrid(ctx, config, options = {}) {
     ctx.lineWidth = lineWidth;
 
     // Draw horizontal grid lines at each Y tick interval
-    for (let y = 0; y <= config.maxY; y += config.yTickInterval) {
+    // Start from the first tick aligned with the interval
+    const firstYTick = Math.floor(config.minY / config.yTickInterval) * config.yTickInterval;
+    for (let y = firstYTick; y <= config.maxY; y += config.yTickInterval) {
+        // Skip if below minY
+        if (y < config.minY) continue;
+        
         const canvasY = config.yScale(y);
         
         ctx.beginPath();

@@ -46,7 +46,12 @@ function drawAxes(ctx, config) {
     ctx.stroke();
 
     // Draw Y-axis ticks and labels
-    for (let y = 0; y <= config.maxY; y += config.yTickInterval) {
+    // Start from the first tick aligned with the interval
+    const firstYTick = Math.floor(config.minY / config.yTickInterval) * config.yTickInterval;
+    for (let y = firstYTick; y <= config.maxY; y += config.yTickInterval) {
+        // Skip if below minY
+        if (y < config.minY) continue;
+        
         const canvasY = config.yScale(y);
         
         // Draw tick mark
@@ -56,6 +61,6 @@ function drawAxes(ctx, config) {
         ctx.stroke();
         
         // Draw label
-        ctx.fillText(y.toString(), rightX + 7, canvasY);
+        ctx.fillText(y.toFixed(0), rightX + 7, canvasY);
     }
 }

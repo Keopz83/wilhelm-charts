@@ -3,27 +3,37 @@
  */
 class ChartConfig {
     /**
-     * @param {Object} options - Configuration options
-     * @param {number} [options.marginLeft=50] - Left margin in pixels
+     * @param {number} width - Total canvas width in pixels
+     * @param {number} height - Total canvas height in pixels
+     * @param {Object} [options] - Optional configuration overrides
+     * @param {number} [options.marginLeft=20] - Left margin in pixels
      * @param {number} [options.marginTop=20] - Top margin in pixels
-     * @param {number} [options.marginRight=20] - Right margin in pixels
-     * @param {number} [options.marginBottom=20] - Bottom margin in pixels
-     * @param {number} [options.chartWidth=830] - Chart width in pixels
-     * @param {number} [options.chartHeight=460] - Chart height in pixels
+     * @param {number} [options.marginRight=50] - Right margin in pixels
+     * @param {number} [options.marginBottom=40] - Bottom margin in pixels
      * @param {number} [options.maxX=800] - Maximum X value in data coordinates
+     * @param {number} [options.minY=0] - Minimum Y value in data coordinates
      * @param {number} [options.maxY=500] - Maximum Y value in data coordinates
      * @param {number} [options.xTickInterval=100] - Interval between X-axis ticks
      * @param {number} [options.yTickInterval=100] - Interval between Y-axis ticks
      */
-    constructor(options = {}) {
-        this.marginLeft = options.marginLeft ?? 50;
+    constructor(width, height, options = {}) {
+
+        // Set margins with defaults
+        this.marginLeft = options.marginLeft ?? 20;
         this.marginTop = options.marginTop ?? 20;
-        this.marginRight = options.marginRight ?? 20;
-        this.marginBottom = options.marginBottom ?? 20;
-        this.chartWidth = options.chartWidth ?? 830;
-        this.chartHeight = options.chartHeight ?? 460;
+        this.marginRight = options.marginRight ?? 50;
+        this.marginBottom = options.marginBottom ?? 40;
+        
+        // Calculate chart dimensions from canvas size and margins
+        this.chartWidth = width - this.marginLeft - this.marginRight;
+        this.chartHeight = height - this.marginTop - this.marginBottom;
+        
+        // Data coordinate system
+        this.minY = options.minY ?? 0;
         this.maxX = options.maxX ?? 800;
         this.maxY = options.maxY ?? 500;
+        
+        // Tick intervals
         this.xTickInterval = options.xTickInterval ?? 100;
         this.yTickInterval = options.yTickInterval ?? 100;
     }
@@ -43,6 +53,8 @@ class ChartConfig {
      * @returns {number} Y value in canvas coordinates
      */
     yScale(dataY) {
-        return this.marginTop + this.chartHeight - (dataY / this.maxY) * this.chartHeight;
+        const dataRange = this.maxY - this.minY;
+        const normalizedY = (dataY - this.minY) / dataRange;
+        return this.marginTop + this.chartHeight - normalizedY * this.chartHeight;
     }
 }

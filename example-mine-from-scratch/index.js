@@ -2,20 +2,6 @@
 const canvas = document.getElementById('chart');
 const ctx = canvas.getContext('2d');
 
-// Create chart configuration
-const config = new ChartConfig({
-    marginLeft: 20,
-    marginTop: 20,
-    marginRight: 50,
-    marginBottom: 20,
-    chartWidth: 800,
-    chartHeight: 460,
-    maxX: 800,
-    maxY: 500,
-    xTickInterval: 100,
-    yTickInterval: 100
-});
-
 // Data points (in data coordinates, 100 apart in X)
 const dataPoints = [
     { x: 0, y: 50 },
@@ -28,6 +14,9 @@ const dataPoints = [
     { x: 700, y: 200 },
     { x: 800, y: 450 }
 ];
+
+// Create chart configuration (canvas dimensions with automatic margin/layout calculation)
+const config = new ChartConfig(canvas.width, canvas.height);
 
 // Create line configuration
 const lineConfig = new LineConfig({
