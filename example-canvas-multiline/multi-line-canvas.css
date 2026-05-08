@@ -1,0 +1,33 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    background: #f5f5f5;
+}
+
+canvas {
+    background: white;
+    border: 1px solid #ccc;
+    display: block;
+    margin: 20px auto;
+    cursor: crosshair;
+}
+
+.legend {
+    text-align: center;
+    margin: 20px auto;
+    max-width: 800px;
+}
+
+.legend-item {
+    display: inline-block;
+    margin: 0 15px;
+    font-size: 14px;
+}
+
+.legend-color {
+    display: inline-block;
+    width: 20px;
+    height: 3px;
+    margin-right: 5px;
+    vertical-align: middle;
+}

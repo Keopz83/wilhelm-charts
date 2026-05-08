@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canvas Time-Series Examples</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    <div class="container">
+        <h1>📊 Web Chart Examples</h1>
+        <p class="subtitle">Time-series charts: from-scratch Canvas implementations + production-ready TradingView library</p>
+        
+        <div class="examples">
+            <a href="time-series-canvas.html" class="example-card">
+                <div class="example-number">1</div>
+                <div class="example-title">Basic Time-Series Chart</div>
+                <div class="example-desc">
+                    A single-line chart showing how to render time-series data with Canvas from scratch.
+                </div>
+                <ul class="example-features">
+                    <li>Canvas 2D rendering</li>
+                    <li>Scale functions (data → pixels)</li>
+                    <li>Grid, axes, and labels</li>
+                    <li>Mouse hover interaction</li>
+                </ul>
+                <div>
+                    <span class="badge">Beginner</span>
+                    <span class="badge">~200 LOC</span>
+                </div>
+            </a>
+
+            <a href="multi-line-canvas.html" class="example-card">
+                <div class="example-number">2</div>
+                <div class="example-title">Multi-Line Time-Series</div>
+                <div class="example-desc">
+                    Multiple data series superimposed on the same chart with unified scaling and legend.
+                </div>
+                <ul class="example-features">
+                    <li>Multiple datasets on one chart</li>
+                    <li>Color-coded series</li>
+                    <li>Interactive legend</li>
+                    <li>Cross-series hover values</li>
+                </ul>
+                <div>
+                    <span class="badge">Intermediate</span>
+                    <span class="badge">~250 LOC</span>
+                </div>
+            </a>
+
+            <a href="interactive-drawing-canvas.html" class="example-card">
+                <div class="example-number">3</div>
+                <div class="example-title">Interactive Drawing Tools</div>
+                <div class="example-desc">
+                    Chart with drawing capabilities - trendlines, horizontal lines, and annotations.
+                </div>
+                <ul class="example-features">
+                    <li>Two-layer canvas architecture</li>
+                    <li>Drawing mode state management</li>
+                    <li>Drag-to-draw trendlines</li>
+                    <li>Support/resistance lines</li>
+                    <li>Drawing persistence</li>
+                </ul>
+                <div>
+                    <span class="badge">Advanced</span>
+                    <span class="badge">~300 LOC</span>
+                </div>
+            </a>
+
+            <a href="lightweight-charts-example.html" class="example-card">
+                <div class="example-number">4</div>
+                <div class="example-title">TradingView Lightweight Charts</div>
+                <div class="example-desc">
+                    Professional financial charts using TradingView's Lightweight Charts library - industry standard for trading platforms.
+                </div>
+                <ul class="example-features">
+                    <li>Candlestick, line, and area charts</li>
+                    <li>Volume histogram with separate scale</li>
+                    <li>Simple Moving Average indicator</li>
+                    <li>Crosshair with live OHLCV display</li>
+                    <li>Zoom/pan with mouse wheel</li>
+                </ul>
+                <div>
+                    <span class="badge recommended">Recommended</span>
+                    <span class="badge">Production Ready</span>
+                    <span class="badge">Trading</span>
+                </div>
+            </a>
+        </div>
+
+        <footer>
+            <p><strong>Examples 1-3:</strong> Pure HTML5 Canvas API (no libraries)</p>
+            <p><strong>Example 4:</strong> TradingView Lightweight Charts library</p>
+            <p style="margin-top: 8px;">See README.md for detailed documentation</p>
+        </footer>
+    </div>
+</body>
+</html>

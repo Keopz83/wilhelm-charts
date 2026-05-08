@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi-Line Time-Series - Canvas</title>
+    <link rel="stylesheet" href="multi-line-canvas.css">
+</head>
+<body>
+    <h1 style="text-align: center;">Multi-Line Time-Series Chart</h1>
+    
+    <div class="legend">
+        <div class="legend-item">
+            <span class="legend-color" style="background: #2196F3;"></span>
+            Temperature (°C)
+        </div>
+        <div class="legend-item">
+            <span class="legend-color" style="background: #F44336;"></span>
+            Humidity (%)
+        </div>
+        <div class="legend-item">
+            <span class="legend-color" style="background: #4CAF50;"></span>
+            Pressure (hPa)
+        </div>
+    </div>
+    
+    <canvas id="chart" width="900" height="500"></canvas>
+    
+    <div style="text-align: center; color: #666; margin-top: 10px;" id="info">
+        Hover over the chart to see values
+    </div>
+
+    <script src="multi-line-canvas.js"></script>
+</body>
+</html>
