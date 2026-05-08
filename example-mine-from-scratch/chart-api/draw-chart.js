@@ -7,6 +7,15 @@
  */
 function drawChart(ctx, config, dataPoints, lineConfig) {
 
+    // Draw grid lines first (behind everything)
+    drawGrid(ctx, config, {
+        color: '#333',
+        lineWidth: 1
+    });
+
+    // Draw axes
+    drawAxes(ctx, config);
+
     // Line style
     ctx.strokeStyle = lineConfig.lineColor;
     ctx.lineWidth = lineConfig.lineWidth;

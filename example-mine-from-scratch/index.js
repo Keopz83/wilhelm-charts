@@ -31,20 +31,11 @@ const dataPoints = [
 
 // Create line configuration
 const lineConfig = new LineConfig({
-    lineColor: '#0f8400',
+    lineColor: '#1eb100',
     lineWidth: 1,
     dotRadius: 3,
     showLabels: true
 });
-
-// Draw grid lines (behind everything)
-drawGrid(ctx, config, {
-    color: '#333',
-    lineWidth: 1
-});
-
-// Draw axes
-drawAxes(ctx, config);
 
 // Draw the chart with data points
 drawChart(ctx, config, dataPoints, lineConfig);
