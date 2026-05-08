@@ -21,7 +21,19 @@ function drawAxes(ctx, config) {
     ctx.stroke();
 
     // Draw X-axis ticks and labels
-    for (let x = 0; x <= config.maxX; x += config.xTickInterval) {
+    const xTicks = new Set();
+    
+    // Add ticks at intervals starting from minX
+    for (let x = config.minX; x <= config.maxX; x += config.xTickInterval) {
+        xTicks.add(x);
+    }
+    
+    // Always include the first and last ticks
+    xTicks.add(config.minX);
+    xTicks.add(config.maxX);
+    
+    // Draw all ticks
+    xTicks.forEach(x => {
         const canvasX = config.xScale(x);
         
         // Draw tick mark
@@ -31,8 +43,8 @@ function drawAxes(ctx, config) {
         ctx.stroke();
         
         // Draw label
-        ctx.fillText(x.toString(), canvasX, config.marginTop + config.chartHeight + 7);
-    }
+        ctx.fillText(Math.round(x).toString(), canvasX, config.marginTop + config.chartHeight + 7);
+    });
 
     // Draw Y-axis
     ctx.textAlign = 'left';

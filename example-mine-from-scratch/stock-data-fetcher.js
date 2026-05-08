@@ -76,9 +76,9 @@ function transformToChartData(stockData, maxPoints = 100) {
     // Take the most recent points
     const recentData = stockData.slice(-maxPoints);
     
-    // Transform to simple x/y format for the chart
+    // Transform to simple x/y format for the chart (1-based indexing for display)
     return recentData.map((item, index) => ({
-        x: index,
+        x: index + 1,
         y: item.close,
         date: item.date
     }));

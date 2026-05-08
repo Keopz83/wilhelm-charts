@@ -10,6 +10,7 @@ class ChartConfig {
      * @param {number} [options.marginTop=20] - Top margin in pixels
      * @param {number} [options.marginRight=50] - Right margin in pixels
      * @param {number} [options.marginBottom=40] - Bottom margin in pixels
+     * @param {number} [options.minX=0] - Minimum X value in data coordinates
      * @param {number} [options.maxX=800] - Maximum X value in data coordinates
      * @param {number} [options.minY=0] - Minimum Y value in data coordinates
      * @param {number} [options.maxY=500] - Maximum Y value in data coordinates
@@ -29,8 +30,9 @@ class ChartConfig {
         this.chartHeight = height - this.marginTop - this.marginBottom;
         
         // Data coordinate system
-        this.minY = options.minY ?? 0;
+        this.minX = options.minX ?? 0;
         this.maxX = options.maxX ?? 800;
+        this.minY = options.minY ?? 0;
         this.maxY = options.maxY ?? 500;
         
         // Tick intervals
@@ -44,7 +46,9 @@ class ChartConfig {
      * @returns {number} X value in canvas coordinates
      */
     xScale(dataX) {
-        return this.marginLeft + (dataX / this.maxX) * this.chartWidth;
+        const dataRange = this.maxX - this.minX;
+        const normalizedX = (dataX - this.minX) / dataRange;
+        return this.marginLeft + normalizedX * this.chartWidth;
     }
 
     /**
