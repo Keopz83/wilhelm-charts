@@ -37,6 +37,12 @@ const lineConfig = new LineConfig({
     showLabels: true
 });
 
+// Draw grid lines (behind everything)
+drawGrid(ctx, config, {
+    color: '#333',
+    lineWidth: 1
+});
+
 // Draw axes
 drawAxes(ctx, config);
 
