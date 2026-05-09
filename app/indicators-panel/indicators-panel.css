@@ -24,11 +24,11 @@
 .indicators-panel h3 {
     margin: 0;
     font-size: 16px;
-    color: #1eb100;
+    color: #888888;
 }
 
 .add-indicator-btn {
-    background: #1eb100;
+    background: #888888;
     border: none;
     color: white;
     width: 28px;
@@ -44,7 +44,7 @@
 }
 
 .add-indicator-btn:hover {
-    background: #16a000;
+    background: #777777;
 }
 
 .active-indicators-list {
@@ -157,7 +157,7 @@
 .modal-header h3 {
     margin: 0;
     font-size: 18px;
-    color: #1eb100;
+    color: #888888;
 }
 
 .modal-close {
@@ -202,7 +202,7 @@
 
 .indicator-option:hover {
     background: #333;
-    border-color: #1eb100;
+    border-color: #888888;
 }
 
 .indicator-option.disabled {
@@ -261,7 +261,7 @@
 
 .form-group input:focus {
     outline: none;
-    border-color: #1eb100;
+    border-color: #888888;
 }
 
 .form-group input[type="color"] {
@@ -292,12 +292,12 @@
 }
 
 .btn-primary {
-    background: #1eb100;
+    background: #888888;
     color: white;
 }
 
 .btn-primary:hover {
-    background: #16a000;
+    background: #777777;
 }
 
 .btn-secondary {

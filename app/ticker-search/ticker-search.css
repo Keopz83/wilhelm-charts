@@ -26,11 +26,11 @@
 
 .controls input:focus {
     outline: none;
-    border-color: #1eb100;
+    border-color: #888888;
 }
 
 .controls button {
-    background: #1eb100;
+    background: #888888;
     border: none;
     color: white;
     padding: 8px 16px;
@@ -41,11 +41,11 @@
 }
 
 .controls button:hover {
-    background: #16a000;
+    background: #777777;
 }
 
 .controls button:active {
-    background: #128700;
+    background: #666666;
 }
 
 .controls button:disabled {
@@ -60,7 +60,7 @@
 }
 
 #status.loading {
-    color: #1eb100;
+    color: #888888;
 }
 
 #status.error {

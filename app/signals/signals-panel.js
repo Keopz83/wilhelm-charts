@@ -61,7 +61,6 @@ function initSignalsPanel(containerId, onSignalClick) {
             
             // Check for bullish cross (price crosses above SMA)
             if (previousPrice <= previousSma && currentPrice > currentSma) {
-                console.log('Bullish SMA cross detected at index:', currentIdx);
                 signals.push({
                     type: 'bullish',
                     name: '10-Day SMA Cross',
@@ -76,7 +75,6 @@ function initSignalsPanel(containerId, onSignalClick) {
             
             // Check for bearish cross (price crosses below SMA)
             if (previousPrice >= previousSma && currentPrice < currentSma) {
-                console.log('Bearish SMA cross detected at index:', currentIdx);
                 signals.push({
                     type: 'bearish',
                     name: '10-Day SMA Cross',
@@ -89,8 +87,6 @@ function initSignalsPanel(containerId, onSignalClick) {
                 });
             }
         }
-        
-        console.log(`Found ${signals.length} SMA crossings in the time series`);
         
         return signals;
     }
@@ -179,7 +175,7 @@ function initSignalsPanel(containerId, onSignalClick) {
                         <div class="signal-ticker">${signal.ticker}</div>
                         <div class="signal-description">${signal.description}</div>
                         <div class="signal-data">
-                            <span style="color: #1eb100">▲ ${bullishCount} Bullish</span> | 
+                            <span style="color: #888888">▲ ${bullishCount} Bullish</span> | 
                             <span style="color: #ff6347">▼ ${bearishCount} Bearish</span>
                         </div>
                         <div class="signal-hint">Click to highlight on chart</div>
@@ -214,7 +210,7 @@ function initSignalsPanel(containerId, onSignalClick) {
             } else {
                 // Handle individual signal (legacy format)
                 const icon = signal.type === 'bullish' ? '▲' : '▼';
-                const color = signal.type === 'bullish' ? '#1eb100' : '#ff6347';
+                const color = signal.type === 'bullish' ? '#888888' : '#ff6347';
                 
                 signalEl.innerHTML = `
                     <div class="signal-header">

@@ -41,11 +41,11 @@
 
 .ticker-search-controls input:focus {
     outline: none;
-    border-color: #1eb100;
+    border-color: #888888;
 }
 
 .ticker-search-controls button {
-    background: #1eb100;
+    background: #888888;
     border: none;
     color: white;
     padding: 8px 12px;
@@ -57,11 +57,11 @@
 }
 
 .ticker-search-controls button:hover {
-    background: #16a000;
+    background: #777777;
 }
 
 .ticker-search-controls button:active {
-    background: #128700;
+    background: #666666;
 }
 
 .ticker-search-controls button:disabled {
@@ -76,7 +76,7 @@
 }
 
 .ticker-status.loading {
-    color: #1eb100;
+    color: #888888;
 }
 
 .ticker-status.error {
@@ -87,7 +87,7 @@
 .ticker-list h3 {
     margin: 0 0 15px 0;
     font-size: 16px;
-    color: #1eb100;
+    color: #888888;
     border-bottom: 1px solid #333;
     padding-bottom: 10px;
 }
@@ -116,7 +116,7 @@
 }
 
 .ticker-list li.active {
-    background: #1eb100;
+    background: #888888;
     color: white;
 }
 

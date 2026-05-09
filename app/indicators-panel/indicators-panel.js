@@ -133,7 +133,7 @@ function initIndicatorsPanel(containerId, onIndicatorChange) {
                 
                 <!-- SMA Configuration Form -->
                 <div class="indicator-config-form" id="smaConfigForm">
-                    <h4 style="margin: 0 0 15px 0; color: #1eb100;">Configure Simple Moving Average</h4>
+                    <h4 style="margin: 0 0 15px 0; color: #888888;">Configure Simple Moving Average</h4>
                     <div class="form-group">
                         <label for="smaPeriod">Period:</label>
                         <input type="number" id="smaPeriod" value="20" min="2" max="200">

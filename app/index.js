@@ -33,13 +33,11 @@ const indicatorsPanel = initIndicatorsPanel('indicatorsContainer', (activeIndica
 // Initialize signals panel
 const signalsPanel = initSignalsPanel('signalsContainer', (crossings) => {
     // Handle signal click - highlight crossings on chart
-    console.log('Signal clicked, crossings:', crossings);
     currentSignalMarkers = crossings;
     
     if (currentStockData && chart && currentTicker) {
         const activeIndicators = indicatorsPanel ? indicatorsPanel.getActiveIndicators() : [];
         const tickerColor = tickerList ? tickerList.getTickerColor(currentTicker) : null;
-        console.log('Redrawing chart with', currentSignalMarkers.length, 'markers');
         chart.drawStockChart(
             currentStockData.dataPoints,
             currentStockData.minY,

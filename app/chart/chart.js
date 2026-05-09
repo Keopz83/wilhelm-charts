@@ -24,7 +24,7 @@ function initChart(canvasId, width, height) {
     
     // Create line configuration
     const lineConfig = new LineConfig({
-        lineColor: '#1eb100',
+        lineColor: '#888888',
         lineWidth: 1,
         dotRadius: 0, // No dots for stock data (too many points)
         showLabels: false
@@ -43,10 +43,7 @@ function initChart(canvasId, width, height) {
      * @param {string} type - 'bullish' or 'bearish'
      */
     function drawTriangleMarker(config, dataIndex, type) {
-        console.log('Drawing triangle marker at index', dataIndex, 'type', type);
-        
         if (!currentDataPoints || dataIndex < 0 || dataIndex >= currentDataPoints.length) {
-            console.log('Invalid dataIndex or no currentDataPoints');
             return;
         }
         
@@ -54,11 +51,9 @@ function initChart(canvasId, width, height) {
         const x = config.xScale(point.x);
         const y = config.yScale(point.y);
         
-        console.log('Triangle position:', { x, y, pointX: point.x, pointY: point.y });
-        
         // Triangle size
         const size = 8;
-        const color = type === 'bullish' ? '#1eb100' : '#ff6347';
+        const color = type === 'bullish' ? '#888888' : '#ff6347';
         
         ctx.save();
         ctx.fillStyle = color;
@@ -137,7 +132,6 @@ function initChart(canvasId, width, height) {
         });
         
         // Draw signal markers
-        console.log('Drawing signal markers, count:', signalMarkers.length, signalMarkers);
         signalMarkers.forEach(marker => {
             drawTriangleMarker(config, marker.dataIndex, marker.type);
         });
