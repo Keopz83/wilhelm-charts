@@ -15,6 +15,10 @@ const lineConfig = new LineConfig({
     showLabels: false
 });
 
+// Store current chart data for mouse tracking
+let currentConfig = null;
+let currentDataPoints = null;
+
 // Async function to load and display stock data
 async function loadStockChart(ticker = 'GOOGL') {
     try {
@@ -39,8 +43,18 @@ async function loadStockChart(ticker = 'GOOGL') {
             yTickInterval: Math.ceil((stockData.maxY - stockData.minY) / 10)
         });
         
+        // Store for mouse tracking
+        currentConfig = config;
+        currentDataPoints = stockData.dataPoints;
+        
         // Draw the chart
         drawChart(ctx, config, stockData.dataPoints, lineConfig);
+        
+        // Initialize mouse tracking
+        initMouseTracking(canvas, ctx, config, stockData.dataPoints, () => {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            drawChart(ctx, currentConfig, currentDataPoints, lineConfig);
+        });
         
         // Update status
         statusEl.textContent = `${ticker} loaded successfully`;
