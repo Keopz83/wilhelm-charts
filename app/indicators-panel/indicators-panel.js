@@ -1,6 +1,6 @@
 /**
  * Indicators Panel Module
- * Manages the display and selection of technical indicators
+ * Manages the display and selection of technical indicators with modal configuration
  */
 
 /**
@@ -19,7 +19,7 @@ const AVAILABLE_INDICATORS = [
 /**
  * Initialize indicators panel
  * @param {string} containerId - ID of the container element
- * @param {Function} onIndicatorChange - Callback when indicator is toggled
+ * @param {Function} onIndicatorChange - Callback when indicators change
  * @returns {Object} API object with methods to interact with indicators panel
  */
 function initIndicatorsPanel(containerId, onIndicatorChange) {
@@ -30,103 +30,218 @@ function initIndicatorsPanel(containerId, onIndicatorChange) {
         return null;
     }
     
-    // Track active indicators
-    const activeIndicators = new Map();
+    // Track active indicator instances
+    const activeIndicators = [];
+    let indicatorIdCounter = 0;
     
     // Create panel HTML
-    let indicatorsHTML = '<div class="indicators-panel"><h3>Technical Indicators</h3><ul class="indicators-list">';
-    
-    AVAILABLE_INDICATORS.forEach(indicator => {
-        const disabledClass = indicator.enabled ? '' : 'disabled';
-        const disabledAttr = indicator.enabled ? '' : 'disabled';
-        const badge = indicator.enabled ? '' : '<span class="indicator-badge coming-soon">Coming Soon</span>';
+    container.innerHTML = `
+        <div class="indicators-panel">
+            <div class="indicators-panel-header">
+                <h3>Indicators</h3>
+                <button class="add-indicator-btn" id="addIndicatorBtn" title="Add Indicator">+</button>
+            </div>
+            <ul class="active-indicators-list" id="activeIndicatorsList">
+                <!-- Active indicators will appear here -->
+            </ul>
+        </div>
         
-        indicatorsHTML += `
-            <li class="indicator-item ${disabledClass}" data-indicator="${indicator.id}">
-                <input type="checkbox" 
-                       id="indicator-${indicator.id}" 
-                       ${disabledAttr}
-                       data-indicator-id="${indicator.id}">
-                <label class="indicator-label" for="indicator-${indicator.id}">
-                    ${indicator.name}
-                </label>
-                ${badge}
-            </li>
-        `;
+        <!-- Modal -->
+        <div class="indicator-modal" id="indicatorModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Add Indicator</h3>
+                    <button class="modal-close" id="modalClose">&times;</button>
+                </div>
+                
+                <!-- Indicator Selection -->
+                <div id="indicatorSelection">
+                    <ul class="indicator-selection-list">
+                        ${AVAILABLE_INDICATORS.map(ind => `
+                            <li class="indicator-option ${ind.enabled ? '' : 'disabled'}" 
+                                data-indicator-id="${ind.id}"
+                                ${ind.enabled ? `onclick="selectIndicator('${ind.id}')"` : ''}>
+                                <span class="indicator-option-name">${ind.name}</span>
+                                ${ind.enabled ? '' : '<span class="indicator-badge">Coming Soon</span>'}
+                            </li>
+                        `).join('')}
+                    </ul>
+                </div>
+                
+                <!-- SMA Configuration Form -->
+                <div class="indicator-config-form" id="smaConfigForm">
+                    <h4 style="margin: 0 0 15px 0; color: #1eb100;">Configure Simple Moving Average</h4>
+                    <div class="form-group">
+                        <label for="smaPeriod">Period:</label>
+                        <input type="number" id="smaPeriod" value="20" min="2" max="200">
+                    </div>
+                    <div class="form-group">
+                        <label for="smaColor">Color:</label>
+                        <input type="color" id="smaColor" value="#ffa500">
+                    </div>
+                    <div class="form-actions">
+                        <button class="btn btn-secondary" onclick="cancelIndicatorConfig()">Cancel</button>
+                        <button class="btn btn-primary" onclick="addSMAIndicator()">Add Indicator</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    // Get DOM elements
+    const modal = document.getElementById('indicatorModal');
+    const addBtn = document.getElementById('addIndicatorBtn');
+    const closeBtn = document.getElementById('modalClose');
+    const indicatorSelection = document.getElementById('indicatorSelection');
+    const smaConfigForm = document.getElementById('smaConfigForm');
+    const activeList = document.getElementById('activeIndicatorsList');
+    
+    // Open modal
+    addBtn.addEventListener('click', () => {
+        modal.classList.add('show');
+        showIndicatorSelection();
     });
     
-    indicatorsHTML += '</ul></div>';
-    container.innerHTML = indicatorsHTML;
+    // Close modal
+    closeBtn.addEventListener('click', () => {
+        modal.classList.remove('show');
+    });
     
-    // Add event listeners to checkboxes
-    AVAILABLE_INDICATORS.forEach(indicator => {
-        if (indicator.enabled) {
-            const checkbox = document.getElementById(`indicator-${indicator.id}`);
-            checkbox.addEventListener('change', (e) => {
-                const isChecked = e.target.checked;
-                
-                if (isChecked) {
-                    // Default parameters
-                    const params = { period: indicator.config.defaultPeriod };
-                    activeIndicators.set(indicator.id, {
-                        config: indicator.config,
-                        params: params
-                    });
-                } else {
-                    activeIndicators.delete(indicator.id);
-                }
-                
-                if (onIndicatorChange) {
-                    onIndicatorChange(Array.from(activeIndicators.values()));
-                }
-            });
+    // Close on outside click
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            modal.classList.remove('show');
         }
     });
+    
+    /**
+     * Show indicator selection screen
+     */
+    function showIndicatorSelection() {
+        indicatorSelection.style.display = 'block';
+        smaConfigForm.classList.remove('show');
+    }
+    
+    /**
+     * Show SMA configuration form
+     */
+    window.selectIndicator = function(indicatorId) {
+        if (indicatorId === 'sma') {
+            indicatorSelection.style.display = 'none';
+            smaConfigForm.classList.add('show');
+            
+            // Reset form to defaults
+            document.getElementById('smaPeriod').value = 20;
+            document.getElementById('smaColor').value = '#ffa500';
+        }
+    };
+    
+    /**
+     * Cancel configuration and return to selection
+     */
+    window.cancelIndicatorConfig = function() {
+        showIndicatorSelection();
+    };
+    
+    /**
+     * Add SMA indicator with user configuration
+     */
+    window.addSMAIndicator = function() {
+        const period = parseInt(document.getElementById('smaPeriod').value);
+        const color = document.getElementById('smaColor').value;
+        
+        if (period < 2 || period > 200) {
+            alert('Period must be between 2 and 200');
+            return;
+        }
+        
+        const indicatorInstance = {
+            id: indicatorIdCounter++,
+            type: 'sma',
+            config: SMA_CONFIG,
+            params: { period },
+            color: color
+        };
+        
+        // Override color in config
+        const customConfig = { ...SMA_CONFIG, color: color };
+        indicatorInstance.config = customConfig;
+        
+        activeIndicators.push(indicatorInstance);
+        renderActiveIndicators();
+        notifyChange();
+        
+        // Close modal
+        modal.classList.remove('show');
+    };
+    
+    /**
+     * Remove an indicator instance
+     */
+    window.removeIndicator = function(instanceId) {
+        const index = activeIndicators.findIndex(ind => ind.id === instanceId);
+        if (index !== -1) {
+            activeIndicators.splice(index, 1);
+            renderActiveIndicators();
+            notifyChange();
+        }
+    };
+    
+    /**
+     * Render the list of active indicators
+     */
+    function renderActiveIndicators() {
+        if (activeIndicators.length === 0) {
+            activeList.innerHTML = '';
+            return;
+        }
+        
+        activeList.innerHTML = activeIndicators.map(ind => {
+            const displayName = ind.config.getDisplayName(ind.params);
+            const paramsStr = `Period: ${ind.params.period}`;
+            
+            return `
+                <li class="active-indicator-item">
+                    <div class="indicator-color-box" style="background: ${ind.color}"></div>
+                    <div class="indicator-info">
+                        <div class="indicator-name">${displayName}</div>
+                        <div class="indicator-params">${paramsStr}</div>
+                    </div>
+                    <button class="remove-indicator-btn" onclick="removeIndicator(${ind.id})" title="Remove">×</button>
+                </li>
+            `;
+        }).join('');
+    }
+    
+    /**
+     * Notify parent of indicator changes
+     */
+    function notifyChange() {
+        if (onIndicatorChange) {
+            onIndicatorChange(activeIndicators);
+        }
+    }
     
     /**
      * Get all active indicators
-     * @returns {Array} Array of active indicator configs with params
+     * @returns {Array} Array of active indicator instances
      */
     function getActiveIndicators() {
-        return Array.from(activeIndicators.values());
-    }
-    
-    /**
-     * Check if an indicator is active
-     * @param {string} indicatorId - Indicator ID
-     * @returns {boolean} True if active
-     */
-    function isActive(indicatorId) {
-        return activeIndicators.has(indicatorId);
-    }
-    
-    /**
-     * Toggle an indicator programmatically
-     * @param {string} indicatorId - Indicator ID
-     * @param {boolean} active - Whether to activate or deactivate
-     */
-    function toggle(indicatorId, active) {
-        const checkbox = document.getElementById(`indicator-${indicatorId}`);
-        if (checkbox && !checkbox.disabled) {
-            checkbox.checked = active;
-            checkbox.dispatchEvent(new Event('change'));
-        }
+        return activeIndicators;
     }
     
     /**
      * Clear all active indicators
      */
     function clearAll() {
-        activeIndicators.forEach((_, id) => {
-            toggle(id, false);
-        });
+        activeIndicators.length = 0;
+        renderActiveIndicators();
+        notifyChange();
     }
     
     // Return public API
     return {
         getActiveIndicators,
-        isActive,
-        toggle,
         clearAll
     };
 }

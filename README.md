@@ -13,29 +13,33 @@ Wilhelm Charts is a modular, lightweight charting library designed specifically 
 - **Date-based X-axis** - Automatic date formatting and labeling
 - **Dynamic Y-axis** - Auto-scaling based on price ranges
 - **Grid system** - Configurable horizontal grid lines
-- **Modular architecture** - Separate modules for chart, search, and ticker list
+- **Technical indicators** - Modal-based configuration with customizable parameters
+  - Simple Moving Average (SMA) with multiple instances support
+  - More indicators coming soon
+- **Modular architecture** - Separate modules for chart, search, indicators, and ticker list
 - **Dark theme** - Optimized for financial trading interfaces
 
 ## Project Structure
 
 ```
-example-mine-from-scratch/
-├── app/
-│   ├── chart/              # Chart rendering module
-│   ├── ticker-search/      # Ticker input and load controls
-│   ├── ticker-list/        # Active tickers sidebar
-│   ├── stock-broker/       # Yahoo Finance data fetcher
-│   └── index.html/css/js   # Main application
-├── chart-api/              # Core chart components
-│   ├── chart-config.js     # Configuration and scaling
-│   ├── line-config.js      # Line styling
-│   ├── axis.js             # Axis rendering
-│   ├── draw-grid.js        # Grid lines
-│   ├── draw-chart.js       # Main drawing orchestration
-│   └── mouse-action.js     # Mouse interactions
-├── proxy-server.js         # CORS proxy for Yahoo Finance
-└── package.json
-
+app/
+├── chart/                  # Chart rendering module
+├── ticker-search/          # Ticker input and load controls
+├── ticker-list/            # Active tickers sidebar
+├── stock-broker/           # Yahoo Finance data fetcher
+├── indicators/             # Technical indicators (SMA, EMA, etc.)
+├── indicators-panel/       # Indicators UI with modal configuration
+└── index.html/css/js       # Main application
+chart-api/                  # Core chart components
+├── chart-config.js         # Configuration and scaling
+├── line-config.js          # Line styling
+├── axis.js                 # Axis rendering
+├── draw-grid.js            # Grid lines
+├── draw-chart.js           # Main drawing orchestration
+├── draw-line.js            # Line drawing helper
+└── mouse-action.js         # Mouse interactions
+proxy-server.js             # CORS proxy for Yahoo Finance
+package.json
 ```
 
 ## Quick Start
@@ -60,16 +64,22 @@ http://localhost:3000/app/index.html
 **Working:**
 - Stock data fetching from Yahoo Finance
 - Line chart rendering with dates
-- Mouse hover interactions
-- Multiple ticker tracking
-- Dynamic scaling
+- Mouse hover interactions with crosshair
+- Multiple ticker tracking in sidebar
+- Dynamic Y-axis scaling
+- **Technical Indicators:**
+  - Simple Moving Average (SMA) with configurable period and color
+  - Modal-based indicator configuration
+  - Multiple instances of same indicator with different parameters
+  - Visual indicator management panel
 
 **In Development:**
-- Technical indicators (moving averages, etc.)
+- Additional indicators (EMA, RSI, MACD, Bollinger Bands, Volume, Stochastic)
 - Candlestick charts
 - Drawing tools (trendlines, support/resistance)
 - Time period selectors
 - Multiple timeframes
+- Indicator parameter editing
 
 ## Objective
 
