@@ -10,6 +10,7 @@ Wilhelm Charts is a modular, lightweight charting library designed specifically 
 
 - **Real-time stock data** - Yahoo Finance integration via proxy server
 - **Interactive charts** - Mouse hover with crosshair and data tooltips
+- **Customizable colors** - Color picker for each ticker's chart line with localStorage persistence
 - **Date-based X-axis** - Automatic date formatting and labeling
 - **Dynamic Y-axis** - Auto-scaling based on price ranges
 - **Grid system** - Configurable horizontal grid lines
@@ -66,7 +67,7 @@ http://localhost:3000/app/index.html
 - Stock data fetching from Yahoo Finance
 - Line chart rendering with dates
 - Mouse hover interactions with crosshair
-- Multiple ticker tracking in sidebar
+- Multiple ticker tracking in sidebar with customizable colors
 - Dynamic Y-axis scaling
 - **Technical Indicators:**
   - Simple Moving Average (SMA) with configurable period and color

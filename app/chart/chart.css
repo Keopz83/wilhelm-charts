@@ -9,6 +9,12 @@
     align-items: flex-start;
 }
 
+.right-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
 canvas {
     background-color: #212020;
 }

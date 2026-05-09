@@ -1,6 +1,7 @@
 /**
  * Ticker List Styles
  * Displays a list of stock tickers with their current prices
+ * Includes search controls for loading new tickers
  */
 
 .ticker-list {
@@ -11,6 +12,78 @@
     min-width: 200px;
 }
 
+/* Search Controls */
+.ticker-search-controls {
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #333;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.ticker-search-controls label {
+    font-weight: bold;
+    font-size: 12px;
+    color: #999;
+}
+
+.ticker-search-controls input {
+    background: #2a2929;
+    border: 1px solid #555;
+    color: #ccc;
+    padding: 8px 10px;
+    border-radius: 4px;
+    width: 100%;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+.ticker-search-controls input:focus {
+    outline: none;
+    border-color: #1eb100;
+}
+
+.ticker-search-controls button {
+    background: #1eb100;
+    border: none;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    width: 100%;
+}
+
+.ticker-search-controls button:hover {
+    background: #16a000;
+}
+
+.ticker-search-controls button:active {
+    background: #128700;
+}
+
+.ticker-search-controls button:disabled {
+    background: #555;
+    cursor: not-allowed;
+}
+
+.ticker-status {
+    font-size: 11px;
+    color: #999;
+    min-height: 14px;
+}
+
+.ticker-status.loading {
+    color: #1eb100;
+}
+
+.ticker-status.error {
+    color: #ff6347;
+}
+
+/* Ticker List */
 .ticker-list h3 {
     margin: 0 0 15px 0;
     font-size: 16px;
@@ -35,6 +108,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 8px;
 }
 
 .ticker-list li:hover {
@@ -58,4 +132,33 @@
 
 .ticker-list li.active .ticker-price {
     color: white;
+}
+
+.ticker-color-picker {
+    width: 24px;
+    height: 24px;
+    border: 1px solid #555;
+    border-radius: 3px;
+    cursor: pointer;
+    padding: 0;
+    background: transparent;
+    flex-shrink: 0;
+}
+
+.ticker-color-picker::-webkit-color-swatch-wrapper {
+    padding: 0;
+}
+
+.ticker-color-picker::-webkit-color-swatch {
+    border: none;
+    border-radius: 2px;
+}
+
+.ticker-color-picker::-moz-color-swatch {
+    border: none;
+    border-radius: 2px;
+}
+
+.ticker-symbol {
+    flex: 1;
 }

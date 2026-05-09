@@ -1,47 +1,54 @@
 // Initialize modules
-const tickerSearch = initTickerSearch('tickerSearchContainer', loadStockChart);
 const chart = initChart('chart', 900, 400);
 const tickerList = initTickerList('tickerListContainer', (ticker) => {
-    if (tickerSearch) {
-        tickerSearch.setTicker(ticker);
-        loadStockChart(ticker);
-    }
+    // Handle ticker click from list
+    loadStockChart(ticker);
+}, (ticker) => {
+    // Handle load from search
+    loadStockChart(ticker);
 });
 
 // Store current stock data for redrawing with indicators
 let currentStockData = null;
+let currentTicker = null;
 
 // Initialize indicators panel
 const indicatorsPanel = initIndicatorsPanel('indicatorsContainer', (activeIndicators) => {
     // Redraw chart with updated indicators
-    if (currentStockData && chart) {
+    if (currentStockData && chart && currentTicker) {
+        const tickerColor = tickerList ? tickerList.getTickerColor(currentTicker) : null;
         chart.drawStockChart(
             currentStockData.dataPoints,
             currentStockData.minY,
             currentStockData.maxY,
             currentStockData.xTickInterval,
-            activeIndicators
+            activeIndicators,
+            tickerColor
         );
     }
 });
 
 // Async function to load and display stock data
 async function loadStockChart(ticker = 'GOOGL') {
-    if (!chart || !tickerSearch) return;
+    if (!chart || !tickerList) return;
     
     try {
         // Update status
-        tickerSearch.setStatus(`Loading ${ticker}...`, 'loading');
-        tickerSearch.setEnabled(false);
+        tickerList.setStatus(`Loading ${ticker}...`, 'loading');
+        tickerList.setEnabled(false);
         
         // Fetch stock data for the last 100 days
         const stockData = await getStockChartData(ticker, 100, '1y');
         
         // Store current stock data
         currentStockData = stockData;
+        currentTicker = ticker;
         
         // Get active indicators
         const activeIndicators = indicatorsPanel ? indicatorsPanel.getActiveIndicators() : [];
+        
+        // Get ticker color
+        const tickerColor = tickerList ? tickerList.getTickerColor(ticker) : null;
         
         // Draw the chart with indicators
         chart.drawStockChart(
@@ -49,7 +56,8 @@ async function loadStockChart(ticker = 'GOOGL') {
             stockData.minY,
             stockData.maxY,
             stockData.xTickInterval,
-            activeIndicators
+            activeIndicators,
+            tickerColor
         );
         
         // Update ticker list with latest price
@@ -59,20 +67,20 @@ async function loadStockChart(ticker = 'GOOGL') {
         }
         
         // Update status
-        tickerSearch.setStatus(`${ticker} loaded successfully`, '');
+        tickerList.setStatus(`${ticker} loaded successfully`, '');
         console.log('Stock chart loaded successfully!');
     } catch (error) {
         console.error('Failed to load stock data:', error.message);
         
         // Update status
-        tickerSearch.setStatus(`Failed to load ${ticker}: ${error.message}`, 'error');
+        tickerList.setStatus(`Failed to load ${ticker}: ${error.message}`, 'error');
         
         console.log('Using mock data instead...');
         
         // Fallback to mock data if API fails
         useMockData();
     } finally {
-        tickerSearch.setEnabled(true);
+        tickerList.setEnabled(true);
     }
 }
 
@@ -95,8 +103,23 @@ function useMockData() {
     chart.drawMockChart(dataPoints);
 }
 
-// Load the initial chart
-if (tickerSearch) {
-    loadStockChart(tickerSearch.getTicker());
+// Load saved tickers or initial chart
+if (tickerList) {
+    const savedTickers = tickerList.getSavedTickers();
+    
+    if (savedTickers && savedTickers.length > 0) {
+        // Restore all saved tickers to the display
+        savedTickers.forEach(saved => {
+            tickerList.addOrUpdateTicker(saved.ticker, saved.price);
+        });
+        
+        // Load the most recent ticker (first in sorted array)
+        const mostRecent = savedTickers[0];
+        console.log('Loading saved ticker:', mostRecent.ticker);
+        loadStockChart(mostRecent.ticker);
+    } else {
+        // Load default ticker
+        loadStockChart(tickerList.getTicker());
+    }
 }
 

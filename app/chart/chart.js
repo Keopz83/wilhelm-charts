@@ -49,8 +49,14 @@ function initChart(canvasId, width, height) {
      * @param {number} maxY - Maximum Y value
      * @param {number} xTickInterval - X-axis tick interval
      * @param {Array} indicators - Array of indicator configs to draw
+     * @param {string} lineColor - Optional color for the main chart line
      */
-    function drawStockChart(dataPoints, minY, maxY, xTickInterval, indicators = []) {
+    function drawStockChart(dataPoints, minY, maxY, xTickInterval, indicators = [], lineColor = null) {
+        // Update line color if provided
+        if (lineColor) {
+            lineConfig.lineColor = lineColor;
+        }
+        
         // Clear canvas
         clear();
         

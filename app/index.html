@@ -5,24 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chart example on canvas from scratch</title>
     <link rel="stylesheet" href="index.css">
-    <link rel="stylesheet" href="ticker-search/ticker-search.css">
     <link rel="stylesheet" href="chart/chart.css">
     <link rel="stylesheet" href="ticker-list/ticker-list.css">
     <link rel="stylesheet" href="indicators-panel/indicators-panel.css">
 </head>
 <body>
 
-    <div id="tickerSearchContainer">
-        <!-- Ticker search controls will be initialized here -->
-    </div>
-
     <div class="main-container">
-        <div id="indicatorsContainer">
-            <!-- Indicators panel will be initialized here -->
-        </div>
         <canvas id="chart"></canvas>
-        <div id="tickerListContainer">
-            <!-- Ticker list will be initialized here by ticker-list.js -->
+        <div class="right-panel">
+            <div id="tickerListContainer">
+                <!-- Ticker list with search will be initialized here by ticker-list.js -->
+            </div>
+            <div id="indicatorsContainer">
+                <!-- Indicators panel will be initialized here -->
+            </div>
         </div>
     </div>
 
@@ -35,7 +32,6 @@
     <script src="../chart-api/mouse-action.js"></script>
     <script src="indicators/sma.js"></script>
     <script src="indicators-panel/indicators-panel.js"></script>
-    <script src="ticker-search/ticker-search.js"></script>
     <script src="chart/chart.js"></script>
     <script src="ticker-list/ticker-list.js"></script>
     <script src="stock-broker/stock-data-fetcher.js"></script>
