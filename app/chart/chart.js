@@ -35,6 +35,9 @@ function initChart(canvasId, width, height) {
     let currentDataPoints = null;
     let currentIndicators = [];
     let currentSignalMarkers = [];
+    let currentMinY = null;
+    let currentMaxY = null;
+    let currentXTickInterval = null;
     
     /**
      * Draw a triangle marker at a specific point
@@ -117,6 +120,9 @@ function initChart(canvasId, width, height) {
         currentDataPoints = dataPoints;
         currentIndicators = indicators;
         currentSignalMarkers = signalMarkers;
+        currentMinY = minY;
+        currentMaxY = maxY;
+        currentXTickInterval = xTickInterval;
         
         // Draw the chart
         drawChart(ctx, config, dataPoints, lineConfig);
@@ -187,12 +193,36 @@ function initChart(canvasId, width, height) {
         return currentDataPoints;
     }
     
+    /**
+     * Resize canvas
+     * @param {number} width - New width
+     * @param {number} height - New height
+     */
+    function resize(width, height) {
+        canvas.width = width;
+        canvas.height = height;
+        
+        // Redraw chart if data exists
+        if (currentDataPoints && currentMinY !== null && currentMaxY !== null) {
+            drawStockChart(
+                currentDataPoints,
+                currentMinY,
+                currentMaxY,
+                currentXTickInterval,
+                currentIndicators,
+                lineConfig.lineColor,
+                currentSignalMarkers
+            );
+        }
+    }
+    
     // Return public API
     return {
         clear,
         drawStockChart,
         drawMockChart,
         getConfig,
-        getDataPoints
+        getDataPoints,
+        resize
     };
 }

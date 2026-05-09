@@ -13,6 +13,9 @@ let currentStockData = null;
 let currentTicker = null;
 let currentSignalMarkers = [];
 
+// Setup chart resizing
+setupChartResize();
+
 // Initialize indicators panel
 const indicatorsPanel = initIndicatorsPanel('indicatorsContainer', (activeIndicators) => {
     // Redraw chart with updated indicators
@@ -107,6 +110,48 @@ async function loadStockChart(ticker = 'GOOGL') {
     } finally {
         tickerList.setEnabled(true);
     }
+}
+
+// Setup chart resizing functionality
+function setupChartResize() {
+    const chartContainer = document.getElementById('chartContainer');
+    const resizeHandle = chartContainer.querySelector('.resize-handle');
+    
+    if (!chartContainer || !resizeHandle) return;
+    
+    let isResizing = false;
+    let startX, startY, startWidth, startHeight;
+    
+    resizeHandle.addEventListener('mousedown', (e) => {
+        isResizing = true;
+        startX = e.clientX;
+        startY = e.clientY;
+        startWidth = chartContainer.offsetWidth;
+        startHeight = chartContainer.offsetHeight;
+        
+        e.preventDefault();
+    });
+    
+    document.addEventListener('mousemove', (e) => {
+        if (!isResizing) return;
+        
+        const deltaX = e.clientX - startX;
+        const deltaY = e.clientY - startY;
+        
+        const newWidth = Math.max(400, startWidth + deltaX);
+        const newHeight = Math.max(200, startHeight + deltaY);
+        
+        chartContainer.style.width = newWidth + 'px';
+        chartContainer.style.height = newHeight + 'px';
+        
+        if (chart) {
+            chart.resize(newWidth, newHeight);
+        }
+    });
+    
+    document.addEventListener('mouseup', () => {
+        isResizing = false;
+    });
 }
 
 // Fallback function with mock data
