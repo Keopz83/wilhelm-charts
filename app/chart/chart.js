@@ -34,6 +34,52 @@ function initChart(canvasId, width, height) {
     let currentConfig = null;
     let currentDataPoints = null;
     let currentIndicators = [];
+    let currentSignalMarkers = [];
+    
+    /**
+     * Draw a triangle marker at a specific point
+     * @param {Object} config - Chart configuration
+     * @param {number} dataIndex - Index in the data array
+     * @param {string} type - 'bullish' or 'bearish'
+     */
+    function drawTriangleMarker(config, dataIndex, type) {
+        console.log('Drawing triangle marker at index', dataIndex, 'type', type);
+        
+        if (!currentDataPoints || dataIndex < 0 || dataIndex >= currentDataPoints.length) {
+            console.log('Invalid dataIndex or no currentDataPoints');
+            return;
+        }
+        
+        const point = currentDataPoints[dataIndex];
+        const x = config.xScale(point.x);
+        const y = config.yScale(point.y);
+        
+        console.log('Triangle position:', { x, y, pointX: point.x, pointY: point.y });
+        
+        // Triangle size
+        const size = 8;
+        const color = type === 'bullish' ? '#1eb100' : '#ff6347';
+        
+        ctx.save();
+        ctx.fillStyle = color;
+        
+        ctx.beginPath();
+        if (type === 'bullish') {
+            // Upward triangle (below the point)
+            ctx.moveTo(x, y + size * 1.5);
+            ctx.lineTo(x - size, y + size * 2.5);
+            ctx.lineTo(x + size, y + size * 2.5);
+        } else {
+            // Downward triangle (above the point)
+            ctx.moveTo(x, y - size * 1.5);
+            ctx.lineTo(x - size, y - size * 2.5);
+            ctx.lineTo(x + size, y - size * 2.5);
+        }
+        ctx.closePath();
+        ctx.fill();
+        
+        ctx.restore();
+    }
     
     /**
      * Clear the canvas
@@ -50,8 +96,9 @@ function initChart(canvasId, width, height) {
      * @param {number} xTickInterval - X-axis tick interval
      * @param {Array} indicators - Array of indicator configs to draw
      * @param {string} lineColor - Optional color for the main chart line
+     * @param {Array} signalMarkers - Optional array of signal crossing objects to mark
      */
-    function drawStockChart(dataPoints, minY, maxY, xTickInterval, indicators = [], lineColor = null) {
+    function drawStockChart(dataPoints, minY, maxY, xTickInterval, indicators = [], lineColor = null, signalMarkers = []) {
         // Update line color if provided
         if (lineColor) {
             lineConfig.lineColor = lineColor;
@@ -74,6 +121,7 @@ function initChart(canvasId, width, height) {
         currentConfig = config;
         currentDataPoints = dataPoints;
         currentIndicators = indicators;
+        currentSignalMarkers = signalMarkers;
         
         // Draw the chart
         drawChart(ctx, config, dataPoints, lineConfig);
@@ -88,6 +136,12 @@ function initChart(canvasId, width, height) {
             });
         });
         
+        // Draw signal markers
+        console.log('Drawing signal markers, count:', signalMarkers.length, signalMarkers);
+        signalMarkers.forEach(marker => {
+            drawTriangleMarker(config, marker.dataIndex, marker.type);
+        });
+        
         // Initialize mouse tracking
         initMouseTracking(canvas, ctx, config, dataPoints, () => {
             // Redraw everything on hover
@@ -100,6 +154,10 @@ function initChart(canvasId, width, height) {
                     lineWidth: indicator.config.lineWidth,
                     dotRadius: 0
                 });
+            });
+            // Redraw signal markers
+            currentSignalMarkers.forEach(marker => {
+                drawTriangleMarker(currentConfig, marker.dataIndex, marker.type);
             });
         });
     }

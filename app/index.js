@@ -11,6 +11,7 @@ const tickerList = initTickerList('tickerListContainer', (ticker) => {
 // Store current stock data for redrawing with indicators
 let currentStockData = null;
 let currentTicker = null;
+let currentSignalMarkers = [];
 
 // Initialize indicators panel
 const indicatorsPanel = initIndicatorsPanel('indicatorsContainer', (activeIndicators) => {
@@ -23,7 +24,30 @@ const indicatorsPanel = initIndicatorsPanel('indicatorsContainer', (activeIndica
             currentStockData.maxY,
             currentStockData.xTickInterval,
             activeIndicators,
-            tickerColor
+            tickerColor,
+            currentSignalMarkers
+        );
+    }
+});
+
+// Initialize signals panel
+const signalsPanel = initSignalsPanel('signalsContainer', (crossings) => {
+    // Handle signal click - highlight crossings on chart
+    console.log('Signal clicked, crossings:', crossings);
+    currentSignalMarkers = crossings;
+    
+    if (currentStockData && chart && currentTicker) {
+        const activeIndicators = indicatorsPanel ? indicatorsPanel.getActiveIndicators() : [];
+        const tickerColor = tickerList ? tickerList.getTickerColor(currentTicker) : null;
+        console.log('Redrawing chart with', currentSignalMarkers.length, 'markers');
+        chart.drawStockChart(
+            currentStockData.dataPoints,
+            currentStockData.minY,
+            currentStockData.maxY,
+            currentStockData.xTickInterval,
+            activeIndicators,
+            tickerColor,
+            currentSignalMarkers
         );
     }
 });
@@ -36,6 +60,9 @@ async function loadStockChart(ticker = 'GOOGL') {
         // Update status
         tickerList.setStatus(`Loading ${ticker}...`, 'loading');
         tickerList.setEnabled(false);
+        
+        // Reset signal markers when loading new ticker
+        currentSignalMarkers = [];
         
         // Fetch stock data for the last 100 days
         const stockData = await getStockChartData(ticker, 100, '1y');
@@ -50,20 +77,26 @@ async function loadStockChart(ticker = 'GOOGL') {
         // Get ticker color
         const tickerColor = tickerList ? tickerList.getTickerColor(ticker) : null;
         
-        // Draw the chart with indicators
+        // Draw the chart with indicators (no signal markers initially)
         chart.drawStockChart(
             stockData.dataPoints,
             stockData.minY,
             stockData.maxY,
             stockData.xTickInterval,
             activeIndicators,
-            tickerColor
+            tickerColor,
+            []
         );
         
         // Update ticker list with latest price
         const latestPrice = stockData.dataPoints[stockData.dataPoints.length - 1].y;
         if (tickerList) {
             tickerList.addOrUpdateTicker(ticker, latestPrice);
+        }
+        
+        // Analyze signals
+        if (signalsPanel) {
+            signalsPanel.analyzeSignals(stockData.dataPoints, ticker);
         }
         
         // Update status
