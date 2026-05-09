@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chart example on canvas from scratch</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="ticker-search/ticker-search.css">
+    <link rel="stylesheet" href="chart/chart.css">
+    <link rel="stylesheet" href="ticker-list/ticker-list.css">
+</head>
+<body>
+
+    <div id="tickerSearchContainer">
+        <!-- Ticker search controls will be initialized here -->
+    </div>
+
+    <div class="main-container">
+        <canvas id="chart"></canvas>
+        <div id="tickerListContainer">
+            <!-- Ticker list will be initialized here by ticker-list.js -->
+        </div>
+    </div>
+
+    <script src="../chart-api/chart-config.js"></script>
+    <script src="../chart-api/line-config.js"></script>
+    <script src="../chart-api/draw-grid.js"></script>
+    <script src="../chart-api/axis.js"></script>
+    <script src="../chart-api/draw-chart.js"></script>
+    <script src="../chart-api/mouse-action.js"></script>
+    <script src="ticker-search/ticker-search.js"></script>
+    <script src="chart/chart.js"></script>
+    <script src="ticker-list/ticker-list.js"></script>
+    <script src="stock-broker/stock-data-fetcher.js"></script>
+    <script src="index.js"></script>
+
+</body>
+</html>

@@ -30,5 +30,5 @@ app.get('/api/stock/:symbol', async (req, res) => {
 
 app.listen(PORT, () => {
     console.log(`Proxy server running at http://localhost:${PORT}`);
-    console.log(`Open http://localhost:${PORT}/index.html to view the chart`);
+    console.log(`Open http://localhost:${PORT}/app/index.html to view the chart`);
 });

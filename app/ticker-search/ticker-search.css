@@ -1,9 +1,7 @@
-body {
-    background: #252424;
-    color: #ccc;
-    font-family: Arial, sans-serif;
-    padding: 20px;
-}
+/**
+ * Ticker Search Styles
+ * Controls for ticker input and loading
+ */
 
 .controls {
     margin-bottom: 20px;
@@ -67,8 +65,4 @@ body {
 
 #status.error {
     color: #ff4444;
-}
-
-canvas {
-    background-color: #212020;
 }

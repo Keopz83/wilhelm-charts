@@ -1,0 +1,61 @@
+/**
+ * Ticker List Styles
+ * Displays a list of stock tickers with their current prices
+ */
+
+.ticker-list {
+    background: #212020;
+    border: 1px solid #333;
+    border-radius: 4px;
+    padding: 15px;
+    min-width: 200px;
+}
+
+.ticker-list h3 {
+    margin: 0 0 15px 0;
+    font-size: 16px;
+    color: #1eb100;
+    border-bottom: 1px solid #333;
+    padding-bottom: 10px;
+}
+
+.ticker-list ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.ticker-list li {
+    padding: 10px;
+    margin-bottom: 8px;
+    background: #2a2929;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.2s;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.ticker-list li:hover {
+    background: #333;
+}
+
+.ticker-list li.active {
+    background: #1eb100;
+    color: white;
+}
+
+.ticker-symbol {
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.ticker-price {
+    font-size: 12px;
+    color: #999;
+}
+
+.ticker-list li.active .ticker-price {
+    color: white;
+}

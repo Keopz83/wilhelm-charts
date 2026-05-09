@@ -1,0 +1,14 @@
+/**
+ * Chart Styles
+ * Main chart canvas and container
+ */
+
+.main-container {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+}
+
+canvas {
+    background-color: #212020;
+}
