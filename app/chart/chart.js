@@ -33,6 +33,7 @@ function initChart(canvasId, width, height) {
     // Store current chart data
     let currentConfig = null;
     let currentDataPoints = null;
+    let currentIndicators = [];
     
     /**
      * Clear the canvas
@@ -42,13 +43,14 @@ function initChart(canvasId, width, height) {
     }
     
     /**
-     * Draw chart with stock data
+     * Draw chart with stock data and indicators
      * @param {Array} dataPoints - Array of {x, y, date} data points
      * @param {number} minY - Minimum Y value
      * @param {number} maxY - Maximum Y value
      * @param {number} xTickInterval - X-axis tick interval
+     * @param {Array} indicators - Array of indicator configs to draw
      */
-    function drawStockChart(dataPoints, minY, maxY, xTickInterval) {
+    function drawStockChart(dataPoints, minY, maxY, xTickInterval, indicators = []) {
         // Clear canvas
         clear();
         
@@ -65,14 +67,34 @@ function initChart(canvasId, width, height) {
         // Store for mouse tracking
         currentConfig = config;
         currentDataPoints = dataPoints;
+        currentIndicators = indicators;
         
         // Draw the chart
         drawChart(ctx, config, dataPoints, lineConfig);
         
+        // Draw indicators
+        indicators.forEach(indicator => {
+            const indicatorData = indicator.config.calculate(dataPoints, indicator.params);
+            drawLine(ctx, config, indicatorData, {
+                color: indicator.config.color,
+                lineWidth: indicator.config.lineWidth,
+                dotRadius: 0
+            });
+        });
+        
         // Initialize mouse tracking
         initMouseTracking(canvas, ctx, config, dataPoints, () => {
+            // Redraw everything on hover
             clear();
             drawChart(ctx, currentConfig, currentDataPoints, lineConfig);
+            currentIndicators.forEach(indicator => {
+                const indicatorData = indicator.config.calculate(currentDataPoints, indicator.params);
+                drawLine(ctx, currentConfig, indicatorData, {
+                    color: indicator.config.color,
+                    lineWidth: indicator.config.lineWidth,
+                    dotRadius: 0
+                });
+            });
         });
     }
     

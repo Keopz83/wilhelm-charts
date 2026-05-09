@@ -8,6 +8,23 @@ const tickerList = initTickerList('tickerListContainer', (ticker) => {
     }
 });
 
+// Store current stock data for redrawing with indicators
+let currentStockData = null;
+
+// Initialize indicators panel
+const indicatorsPanel = initIndicatorsPanel('indicatorsContainer', (activeIndicators) => {
+    // Redraw chart with updated indicators
+    if (currentStockData && chart) {
+        chart.drawStockChart(
+            currentStockData.dataPoints,
+            currentStockData.minY,
+            currentStockData.maxY,
+            currentStockData.xTickInterval,
+            activeIndicators
+        );
+    }
+});
+
 // Async function to load and display stock data
 async function loadStockChart(ticker = 'GOOGL') {
     if (!chart || !tickerSearch) return;
@@ -20,12 +37,19 @@ async function loadStockChart(ticker = 'GOOGL') {
         // Fetch stock data for the last 100 days
         const stockData = await getStockChartData(ticker, 100, '1y');
         
-        // Draw the chart
+        // Store current stock data
+        currentStockData = stockData;
+        
+        // Get active indicators
+        const activeIndicators = indicatorsPanel ? indicatorsPanel.getActiveIndicators() : [];
+        
+        // Draw the chart with indicators
         chart.drawStockChart(
             stockData.dataPoints,
             stockData.minY,
             stockData.maxY,
-            stockData.xTickInterval
+            stockData.xTickInterval,
+            activeIndicators
         );
         
         // Update ticker list with latest price
