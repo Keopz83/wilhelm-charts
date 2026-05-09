@@ -14,7 +14,7 @@ function drawChart(ctx, config, dataPoints, lineConfig) {
     });
 
     // Draw axes
-    drawAxes(ctx, config);
+    drawAxes(ctx, config, dataPoints);
 
     // Line style
     ctx.strokeStyle = lineConfig.lineColor;

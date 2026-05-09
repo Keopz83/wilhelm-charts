@@ -2,8 +2,9 @@
  * Draw X and Y axes with ticks and labels
  * @param {CanvasRenderingContext2D} ctx - The canvas rendering context
  * @param {ChartConfig} config - ChartConfig instance with all chart settings
+ * @param {Array} dataPoints - Array of data points with date property
  */
-function drawAxes(ctx, config) {
+function drawAxes(ctx, config, dataPoints) {
 
     // Axis styling
     ctx.strokeStyle = '#666';
@@ -42,8 +43,15 @@ function drawAxes(ctx, config) {
         ctx.lineTo(canvasX, config.marginTop + config.chartHeight + 5);
         ctx.stroke();
         
-        // Draw label
-        ctx.fillText(Math.round(x).toString(), canvasX, config.marginTop + config.chartHeight + 7);
+        // Draw label - show date instead of x value
+        const dataIndex = Math.round(x) - 1; // Convert x (1-based) to array index (0-based)
+        if (dataIndex >= 0 && dataIndex < dataPoints.length && dataPoints[dataIndex].date) {
+            const date = new Date(dataPoints[dataIndex].date);
+            const label = `${date.getMonth() + 1}/${date.getDate()}`; // Format as MM/DD
+            ctx.fillText(label, canvasX, config.marginTop + config.chartHeight + 7);
+        } else {
+            ctx.fillText(Math.round(x).toString(), canvasX, config.marginTop + config.chartHeight + 7);
+        }
     });
 
     // Draw Y-axis
