@@ -53,7 +53,7 @@ function initChart(canvasId, width, height) {
         
         // Triangle size
         const size = 8;
-        const color = type === 'bullish' ? '#888888' : '#ff6347';
+        const color = type === 'bullish' ? '#1eb100' : '#ff6347';
         
         ctx.save();
         ctx.fillStyle = color;

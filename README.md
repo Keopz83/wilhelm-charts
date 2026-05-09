@@ -2,6 +2,10 @@
 
 An open-source JavaScript charting API tailored for stock analysis, built from scratch using Canvas API.
 
+![Wilhelm Charts Main Interface](screenshots/screenshot_main_page.png)
+
+*Main interface showing stock chart with technical indicators, ticker list, and trading signals*
+
 ## Overview
 
 Wilhelm Charts is a modular, lightweight charting library designed specifically for financial data visualization. Built without external dependencies (except for data fetching), it provides a clean, extensible architecture for stock market analysis.
@@ -18,19 +22,27 @@ Wilhelm Charts is a modular, lightweight charting library designed specifically 
   - Simple Moving Average (SMA) with multiple instances support
   - Persistent storage using localStorage
   - More indicators coming soon
-- **Modular architecture** - Separate modules for chart, search, indicators, and ticker list
-- **Dark theme** - Optimized for financial trading interfaces
+- **Trading signals** - Automated signal detection and visualization
+  - 10-day SMA crossing detection (bullish/bearish)
+  - Click to highlight signal points on chart with colored triangles
+  - Full time series analysis
+- **Ticker management** - Multi-ticker sidebar with localStorage persistence
+  - Add/remove tickers with delete button
+  - Color customization per ticker
+  - Automatic price updates
+- **Modular architecture** - Separate modules for chart, search, indicators, signals, and ticker list
+- **Dark theme** - Optimized for financial trading interfaces with gray accent colors
 
 ## Project Structure
 
 ```
 app/
 ├── chart/                  # Chart rendering module
-├── ticker-search/          # Ticker input and load controls
-├── ticker-list/            # Active tickers sidebar
+├── ticker-list/            # Active tickers sidebar with search
 ├── stock-broker/           # Yahoo Finance data fetcher
 ├── indicators/             # Technical indicators (SMA, EMA, etc.)
 ├── indicators-panel/       # Indicators UI with modal configuration
+├── signals/                # Trading signals detection and display
 └── index.html/css/js       # Main application
 chart-api/                  # Core chart components
 ├── chart-config.js         # Configuration and scaling
@@ -68,21 +80,29 @@ http://localhost:3000/app/index.html
 - Line chart rendering with dates
 - Mouse hover interactions with crosshair
 - Multiple ticker tracking in sidebar with customizable colors
+- Ticker persistence across page refreshes with localStorage
+- Delete tickers with X button
+- Integrated search within ticker panel
 - Dynamic Y-axis scaling
 - **Technical Indicators:**
   - Simple Moving Average (SMA) with configurable period and color
   - Modal-based indicator configuration
   - Multiple instances of same indicator with different parameters
   - Visual indicator management panel
-  - **LocalStorage persistence** - Indicators saved across page refreshes
+  - LocalStorage persistence - Indicators saved across page refreshes
+- **Trading Signals:**
+  - 10-day SMA crossing detection (bullish/bearish)
+  - Full time series analysis for all crossings
+  - Click-to-highlight feature with triangle markers on chart
+  - Toggle on/off visualization
 
 **In Development:**
+- Additional trading signals (RSI overbought/oversold, MACD crossovers)
 - Additional indicators (EMA, RSI, MACD, Bollinger Bands, Volume, Stochastic)
 - Candlestick charts
 - Drawing tools (trendlines, support/resistance)
 - Time period selectors
 - Multiple timeframes
-- Indicator parameter editing
 
 ## Objective
 
