@@ -55,8 +55,6 @@ async function loadStockChart(ticker = 'GOOGL') {
     if (!chart || !tickerList) return;
     
     try {
-        // Update status
-        tickerList.setStatus(`Loading ${ticker}...`, 'loading');
         tickerList.setEnabled(false);
         
         // Reset signal markers when loading new ticker
@@ -96,10 +94,6 @@ async function loadStockChart(ticker = 'GOOGL') {
         if (signalsPanel) {
             signalsPanel.analyzeSignals(stockData.dataPoints, ticker);
         }
-        
-        // Update status
-        tickerList.setStatus(`${ticker} loaded successfully`, '');
-        console.log('Stock chart loaded successfully!');
     } catch (error) {
         console.error('Failed to load stock data:', error.message);
         

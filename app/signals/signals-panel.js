@@ -124,13 +124,9 @@ function initSignalsPanel(containerId, onSignalClick) {
         
         // Create one signal entry with all crossings
         if (smaCrossings.length > 0) {
-            const bullishCount = smaCrossings.filter(c => c.type === 'bullish').length;
-            const bearishCount = smaCrossings.filter(c => c.type === 'bearish').length;
-            
             signals.push({
                 id: 'sma-10-crossing',
-                name: '10-Day SMA Crossing',
-                description: `${smaCrossings.length} crossings detected (${bullishCount} bullish, ${bearishCount} bearish)`,
+                name: '10D SMA Crossing',
                 ticker: ticker,
                 crossings: smaCrossings,
                 type: 'multiple' // Indicates this contains multiple crossing points
@@ -163,22 +159,9 @@ function initSignalsPanel(containerId, onSignalClick) {
             
             if (signal.type === 'multiple') {
                 // Handle multiple crossings signal
-                const bullishCount = signal.crossings.filter(c => c.type === 'bullish').length;
-                const bearishCount = signal.crossings.filter(c => c.type === 'bearish').length;
-                
                 signalEl.innerHTML = `
                     <div class="signal-header">
-                        <span class="signal-icon">📊</span>
                         <span class="signal-name">${signal.name}</span>
-                    </div>
-                    <div class="signal-details">
-                        <div class="signal-ticker">${signal.ticker}</div>
-                        <div class="signal-description">${signal.description}</div>
-                        <div class="signal-data">
-                            <span style="color: #888888">▲ ${bullishCount} Bullish</span> | 
-                            <span style="color: #ff6347">▼ ${bearishCount} Bearish</span>
-                        </div>
-                        <div class="signal-hint">Click to highlight on chart</div>
                     </div>
                 `;
                 
