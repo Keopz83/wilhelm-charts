@@ -34,6 +34,69 @@ function initIndicatorsPanel(containerId, onIndicatorChange) {
     const activeIndicators = [];
     let indicatorIdCounter = 0;
     
+    const STORAGE_KEY = 'wilhelm_charts_indicators';
+    
+    /**
+     * Load indicators from localStorage
+     */
+    function loadFromStorage() {
+        try {
+            const stored = localStorage.getItem(STORAGE_KEY);
+            if (stored) {
+                const data = JSON.parse(stored);
+                activeIndicators.length = 0;
+                
+                // Restore indicators with proper config objects
+                data.indicators.forEach(ind => {
+                    // Restore the config object based on indicator type
+                    let config = null;
+                    if (ind.type === 'sma') {
+                        config = { ...SMA_CONFIG, color: ind.color };
+                    }
+                    
+                    if (config) {
+                        activeIndicators.push({
+                            id: ind.id,
+                            type: ind.type,
+                            config: config,
+                            params: ind.params,
+                            color: ind.color
+                        });
+                    }
+                });
+                
+                indicatorIdCounter = data.nextId || activeIndicators.length;
+                renderActiveIndicators();
+                notifyChange();
+            }
+        } catch (error) {
+            console.error('Error loading indicators from storage:', error);
+        }
+    }
+    
+    /**
+     * Save indicators to localStorage
+     */
+    function saveToStorage() {
+        try {
+            // Save only serializable data (exclude config functions)
+            const serializableIndicators = activeIndicators.map(ind => ({
+                id: ind.id,
+                type: ind.type,
+                params: ind.params,
+                color: ind.color
+            }));
+            
+            const data = {
+                indicators: serializableIndicators,
+                nextId: indicatorIdCounter
+            };
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+        } catch (error) {
+            console.error('Error saving indicators to storage:', error);
+        }
+    }
+    
     // Create panel HTML
     container.innerHTML = `
         <div class="indicators-panel">
@@ -169,6 +232,7 @@ function initIndicatorsPanel(containerId, onIndicatorChange) {
         
         activeIndicators.push(indicatorInstance);
         renderActiveIndicators();
+        saveToStorage();
         notifyChange();
         
         // Close modal
@@ -183,6 +247,7 @@ function initIndicatorsPanel(containerId, onIndicatorChange) {
         if (index !== -1) {
             activeIndicators.splice(index, 1);
             renderActiveIndicators();
+            saveToStorage();
             notifyChange();
         }
     };
@@ -236,8 +301,12 @@ function initIndicatorsPanel(containerId, onIndicatorChange) {
     function clearAll() {
         activeIndicators.length = 0;
         renderActiveIndicators();
+        saveToStorage();
         notifyChange();
     }
+    
+    // Load saved indicators from localStorage
+    loadFromStorage();
     
     // Return public API
     return {

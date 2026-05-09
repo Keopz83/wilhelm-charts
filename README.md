@@ -15,6 +15,7 @@ Wilhelm Charts is a modular, lightweight charting library designed specifically 
 - **Grid system** - Configurable horizontal grid lines
 - **Technical indicators** - Modal-based configuration with customizable parameters
   - Simple Moving Average (SMA) with multiple instances support
+  - Persistent storage using localStorage
   - More indicators coming soon
 - **Modular architecture** - Separate modules for chart, search, indicators, and ticker list
 - **Dark theme** - Optimized for financial trading interfaces
@@ -72,6 +73,7 @@ http://localhost:3000/app/index.html
   - Modal-based indicator configuration
   - Multiple instances of same indicator with different parameters
   - Visual indicator management panel
+  - **LocalStorage persistence** - Indicators saved across page refreshes
 
 **In Development:**
 - Additional indicators (EMA, RSI, MACD, Bollinger Bands, Volume, Stochastic)
