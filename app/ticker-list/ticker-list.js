@@ -211,6 +211,7 @@ function initTickerList(containerId, onTickerClick, onLoad) {
                 <input type="color" class="ticker-color-picker" value="${tickerColor}" title="Chart color" />
                 <span class="ticker-symbol">${ticker}</span>
                 <span class="ticker-price">$${price.toFixed(2)}</span>
+                <button class="ticker-delete" title="Remove ticker">×</button>
             `;
             
             // Add color picker change handler
@@ -227,10 +228,18 @@ function initTickerList(containerId, onTickerClick, onLoad) {
                 }
             });
             
+            // Add delete button handler
+            const deleteBtn = tickerItem.querySelector('.ticker-delete');
+            deleteBtn.addEventListener('click', (e) => {
+                e.stopPropagation(); // Prevent ticker click
+                removeTicker(ticker);
+            });
+            
             // Add click handler for ticker item
             tickerItem.addEventListener('click', (e) => {
-                // Only trigger if not clicking on color picker
-                if (!e.target.classList.contains('ticker-color-picker')) {
+                // Only trigger if not clicking on color picker or delete button
+                if (!e.target.classList.contains('ticker-color-picker') && 
+                    !e.target.classList.contains('ticker-delete')) {
                     if (onTickerClick) {
                         onTickerClick(ticker);
                     }

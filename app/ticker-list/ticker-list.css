@@ -134,6 +134,38 @@
     color: white;
 }
 
+.ticker-delete {
+    background: transparent;
+    border: none;
+    color: #999;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 0;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 3px;
+    transition: all 0.2s;
+    flex-shrink: 0;
+    line-height: 1;
+}
+
+.ticker-delete:hover {
+    background: #ff6347;
+    color: white;
+}
+
+.ticker-list li.active .ticker-delete {
+    color: white;
+}
+
+.ticker-list li.active .ticker-delete:hover {
+    background: #ff4433;
+}
+
 .ticker-color-picker {
     width: 24px;
     height: 24px;
